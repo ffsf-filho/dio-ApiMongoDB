@@ -31,5 +31,23 @@ namespace dio_ApiMongoDB.Controllers
             var infectados = _InfectadosCollection.Find(Builders<Infectado>.Filter.Empty).ToList();
             return Ok(infectados);
         }
+
+        [HttpPut]
+        public ActionResult AtualizarInfectados([FromBody] InfectadoDto dto)
+        {
+            _InfectadosCollection.UpdateOne(Builders<Infectado>.Filter
+            .Where(_ => _.DataNascimento == dto.DataNacimento), 
+            Builders<Infectado>.Update.Set("sexo", dto.Sexo));
+            
+            return Ok("Atualizado com sucesso");
+        }
+        [HttpDelete]
+        public ActionResult DeleteInfectados([FromBody] InfectadoDto dto)
+        {
+            _InfectadosCollection.DeleteOne(Builders<Infectado>.Filter
+            .Where(_ => _.DataNascimento == dto.DataNacimento));
+            
+            return Ok("Apagado com sucesso");
+        }        
     }
 }
